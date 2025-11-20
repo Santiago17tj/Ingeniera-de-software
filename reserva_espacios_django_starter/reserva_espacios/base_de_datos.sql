@@ -48,6 +48,9 @@ CREATE TABLE IF NOT EXISTS reservas (
     id INT AUTO_INCREMENT PRIMARY KEY,
     espacio_id INT NOT NULL,
     usuario_id INT NOT NULL,
+    nombre_contacto VARCHAR(150) NULL,
+    telefono VARCHAR(20) NULL,
+    numero_identificacion VARCHAR(50) NULL,
     fecha DATE NOT NULL,
     hora_inicio TIME NOT NULL,
     hora_fin TIME NOT NULL,
@@ -60,7 +63,10 @@ CREATE TABLE IF NOT EXISTS reservas (
     INDEX idx_espacio_fecha (espacio_id, fecha),
     INDEX idx_usuario (usuario_id),
     INDEX idx_fecha (fecha),
-    INDEX idx_estado (estado)
+    INDEX idx_estado (estado),
+    INDEX idx_nombre_contacto (nombre_contacto),
+    INDEX idx_telefono (telefono),
+    INDEX idx_numero_identificacion (numero_identificacion)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- =====================================================

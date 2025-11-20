@@ -63,6 +63,15 @@ $stmt = $pdo->prepare($sql);
 $stmt->execute($params);
 $reservas = $stmt->fetchAll();
 
+// Verificar si los campos de contacto existen en la tabla
+$campos_contacto_existen = false;
+try {
+    $test = $pdo->query("SELECT nombre_contacto, telefono, numero_identificacion FROM reservas LIMIT 1");
+    $campos_contacto_existen = true;
+} catch (PDOException $e) {
+    // Los campos no existen aún
+}
+
 // Obtener listas para filtros
 $espacios = $pdo->query("SELECT id, nombre FROM espacios ORDER BY nombre")->fetchAll();
 $usuarios = $pdo->query("SELECT id, username, nombre, apellido FROM usuarios ORDER BY username")->fetchAll();
@@ -189,6 +198,9 @@ require_once 'header.php';
                     <th>ID</th>
                     <th>Espacio</th>
                     <th>Usuario</th>
+                    <?php if ($campos_contacto_existen): ?>
+                    <th><i class="fas fa-user"></i> Contacto</th>
+                    <?php endif; ?>
                     <th>Fecha</th>
                     <th>Horario</th>
                     <th>Estado</th>
@@ -211,6 +223,27 @@ require_once 'header.php';
                             <br>
                             <small><?php echo htmlspecialchars($reserva['usuario_nombre'] . ' ' . $reserva['usuario_apellido']); ?></small>
                         </td>
+                        <?php if ($campos_contacto_existen): ?>
+                        <td>
+                            <?php if (!empty($reserva['nombre_contacto'])): ?>
+                                <strong><?php echo htmlspecialchars($reserva['nombre_contacto']); ?></strong>
+                                <br>
+                                <?php if (!empty($reserva['telefono'])): ?>
+                                    <small class="has-text-grey">
+                                        <i class="fas fa-phone"></i> <?php echo htmlspecialchars($reserva['telefono']); ?>
+                                    </small>
+                                <?php endif; ?>
+                                <?php if (!empty($reserva['numero_identificacion'])): ?>
+                                    <br>
+                                    <small class="has-text-grey">
+                                        <i class="fas fa-id-card"></i> <?php echo htmlspecialchars($reserva['numero_identificacion']); ?>
+                                    </small>
+                                <?php endif; ?>
+                            <?php else: ?>
+                                <span class="has-text-grey">-</span>
+                            <?php endif; ?>
+                        </td>
+                        <?php endif; ?>
                         <td><?php echo date('d/m/Y', strtotime($reserva['fecha'])); ?></td>
                         <td>
                             <span class="tag is-light">

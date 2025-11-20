@@ -1,0 +1,92 @@
+═══════════════════════════════════════════════════════════════
+  INSTRUCCIONES: Agregar Campos de Contacto a Reservas
+═══════════════════════════════════════════════════════════════
+
+Se han agregado campos de contacto al formulario de reservas:
+  - Nombre completo
+  - Número de teléfono
+  - Número de identificación
+
+═══════════════════════════════════════════════════════════════
+  PASO 1: Actualizar la Base de Datos
+═══════════════════════════════════════════════════════════════
+
+Si ya tienes una base de datos con reservas existentes, necesitas
+agregar los nuevos campos a la tabla.
+
+OPCIÓN A: Usar el script PHP (Recomendado)
+───────────────────────────────────────────
+1. Abre tu navegador y ve a:
+   http://localhost/reserva_espacios/agregar_campos_reserva.php
+
+2. El script verificará si los campos existen y los agregará
+   automáticamente si es necesario.
+
+3. Una vez completado, ELIMINA el archivo agregar_campos_reserva.php
+   por seguridad.
+
+OPCIÓN B: Usar phpMyAdmin
+──────────────────────────
+1. Abre phpMyAdmin (http://localhost/phpmyadmin)
+
+2. Selecciona tu base de datos (reserva_espacios)
+
+3. Ve a la pestaña "SQL"
+
+4. Copia y pega el contenido de agregar_campos_reserva.sql
+
+5. Ejecuta el script
+
+═══════════════════════════════════════════════════════════════
+  PASO 2: Probar el Formulario
+═══════════════════════════════════════════════════════════════
+
+1. Inicia sesión en la aplicación
+
+2. Ve a "Nueva Reserva"
+
+3. Verifica que aparezcan los nuevos campos:
+   - Nombre Completo (obligatorio)
+   - Número de Teléfono (obligatorio)
+   - Número de Identificación (obligatorio)
+
+4. Completa el formulario y crea una reserva
+
+5. Verifica que la información se guarde correctamente
+
+═══════════════════════════════════════════════════════════════
+  CAMBIOS REALIZADOS
+═══════════════════════════════════════════════════════════════
+
+✓ Formulario de reserva (nueva_reserva.php)
+  - Agregados campos de nombre, teléfono e identificación
+  - Validación de campos obligatorios
+  - Diseño mejorado con iconos
+
+✓ Vista de mis reservas (reservas.php)
+  - Muestra información de contacto en la tabla
+  - Compatible con bases de datos antiguas (sin campos)
+
+✓ Panel de administración (admin_reservas.php)
+  - Muestra información de contacto de todas las reservas
+  - Compatible con bases de datos antiguas
+
+✓ Base de datos (base_de_datos.sql)
+  - Estructura actualizada con los nuevos campos
+  - Índices agregados para búsquedas rápidas
+
+═══════════════════════════════════════════════════════════════
+  NOTAS IMPORTANTES
+═══════════════════════════════════════════════════════════════
+
+⚠️ Si ya tienes reservas en la base de datos:
+   - Las reservas antiguas NO tendrán información de contacto
+   - Solo las nuevas reservas requerirán estos datos
+   - Los campos son NULL para reservas antiguas (compatible)
+
+⚠️ Seguridad:
+   - Elimina agregar_campos_reserva.php después de usarlo
+   - Los datos de contacto se validan y sanitizan antes de guardar
+
+═══════════════════════════════════════════════════════════════
+
