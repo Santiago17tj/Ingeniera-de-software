@@ -98,6 +98,15 @@ require_once 'header.php';
                         </div>
                     </div>
 
+                    <div class="field">
+                        <label class="label">Observaciones</label>
+                        <div class="control">
+                            <textarea class="textarea" name="observaciones" rows="3" 
+                                      placeholder="Información adicional sobre la reserva (opcional)"></textarea>
+                        </div>
+                        <p class="help">Puedes agregar detalles adicionales sobre tu reserva</p>
+                    </div>
+
                     <div class="field is-grouped">
                         <div class="control">
                             <button class="button is-primary" type="submit">
