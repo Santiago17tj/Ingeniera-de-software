@@ -23,9 +23,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $error = 'El espacio ya está reservado en ese rango horario.';
     } else {
         // Crear reserva
-        $stmt = $pdo->prepare("INSERT INTO reservas (espacio_id, usuario_id, fecha, hora_inicio, hora_fin, estado) 
-                              VALUES (?, ?, ?, ?, ?, 'CONFIRMADA')");
-        if ($stmt->execute([$espacio_id, $usuario['id'], $fecha, $hora_inicio, $hora_fin])) {
+        $stmt = $pdo->prepare("INSERT INTO reservas (espacio_id, usuario_id, fecha, hora_inicio, hora_fin, observaciones, estado) 
+                              VALUES (?, ?, ?, ?, ?, ?, 'CONFIRMADA')");
+        if ($stmt->execute([$espacio_id, $usuario['id'], $fecha, $hora_inicio, $hora_fin, $observaciones])) {
             flashMessage('Reserva creada correctamente.', 'success');
             redirect('reservas.php');
         } else {
