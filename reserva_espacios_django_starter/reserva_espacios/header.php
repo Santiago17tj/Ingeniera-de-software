@@ -74,6 +74,10 @@ $flash = getFlashMessage();
                                 <span style="margin-left: 0.5rem;">Salir</span>
                             </a>
                         <?php else: ?>
+                            <a class="button is-primary" href="registro.php">
+                                <i class="fas fa-user-plus"></i>
+                                <span style="margin-left: 0.5rem;">Registrarse</span>
+                            </a>
                             <a class="button is-light" href="login.php">
                                 <i class="fas fa-sign-in-alt"></i>
                                 <span style="margin-left: 0.5rem;">Iniciar Sesión</span>
