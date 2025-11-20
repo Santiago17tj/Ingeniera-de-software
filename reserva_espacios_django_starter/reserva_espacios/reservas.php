@@ -80,12 +80,19 @@ require_once 'header.php';
                     </td>
                     <td>
                         <?php if ($reserva['estado'] != 'CANCELADA'): ?>
-                            <a href="cancelar_reserva.php?id=<?php echo $reserva['id']; ?>" 
-                               class="button is-small is-danger is-light"
-                               onclick="return confirm('¿Estás seguro de cancelar esta reserva?');">
-                                <i class="fas fa-times"></i>
-                                <span>Cancelar</span>
-                            </a>
+                            <div class="buttons are-small">
+                                <a href="editar_reserva.php?id=<?php echo $reserva['id']; ?>" 
+                                   class="button is-info is-light">
+                                    <i class="fas fa-edit"></i>
+                                    <span>Editar</span>
+                                </a>
+                                <a href="cancelar_reserva.php?id=<?php echo $reserva['id']; ?>" 
+                                   class="button is-danger is-light"
+                                   onclick="return confirm('¿Estás seguro de cancelar esta reserva?');">
+                                    <i class="fas fa-times"></i>
+                                    <span>Cancelar</span>
+                                </a>
+                            </div>
                         <?php endif; ?>
                     </td>
                 </tr>
