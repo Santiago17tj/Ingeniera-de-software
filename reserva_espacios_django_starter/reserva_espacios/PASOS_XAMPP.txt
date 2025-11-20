@@ -1,0 +1,73 @@
+═══════════════════════════════════════════════════════════════
+  PASOS PARA EJECUTAR EN XAMPP
+═══════════════════════════════════════════════════════════════
+
+✅ PASO 1: INICIAR SERVICIOS
+─────────────────────────────
+1. Abre XAMPP Control Panel
+2. Haz clic en "Start" en Apache (debe ponerse verde)
+3. Haz clic en "Start" en MySQL (debe ponerse verde)
+
+✅ PASO 2: CREAR BASE DE DATOS
+───────────────────────────────
+1. Abre tu navegador
+2. Ve a: http://localhost/phpmyadmin
+3. En el menú izquierdo, haz clic en "Nueva" (New)
+4. Nombre de la base de datos: reserva_espacios
+5. Intercalación: utf8mb4_unicode_ci
+6. Haz clic en "Crear" (Create)
+
+✅ PASO 3: IMPORTAR ESTRUCTURA
+───────────────────────────────
+1. En phpMyAdmin, selecciona la base de datos "reserva_espacios"
+2. Haz clic en la pestaña "Importar" (Import) en el menú superior
+3. Haz clic en "Elegir archivo" (Choose File)
+4. Selecciona: C:\xampp\htdocs\reserva_espacios\base_de_datos.sql
+5. Haz clic en "Continuar" (Go) al final de la página
+6. Deberías ver un mensaje de éxito
+
+✅ PASO 4: VERIFICAR CONFIGURACIÓN
+───────────────────────────────────
+El archivo config.php ya está configurado para XAMPP:
+- DB_USER: root
+- DB_PASS: (vacío)
+- DB_NAME: reserva_espacios
+
+✅ PASO 5: ABRIR LA PÁGINA WEB
+───────────────────────────────
+1. Abre tu navegador
+2. Ve a: http://localhost/reserva_espacios/
+3. Deberías ver la página de inicio
+
+✅ PASO 6: INICIAR SESIÓN
+──────────────────────────
+1. Haz clic en "Iniciar Sesión"
+2. Usuario: admin
+3. Contraseña: admin123
+4. Haz clic en "Iniciar Sesión"
+
+═══════════════════════════════════════════════════════════════
+
+SOLUCIÓN DE PROBLEMAS:
+──────────────────────
+
+Error: "Error de conexión a la base de datos"
+→ Verifica que MySQL esté iniciado en XAMPP
+→ Verifica que la base de datos "reserva_espacios" exista
+→ Ve a http://localhost/phpmyadmin para verificar
+
+Error: "404 Not Found"
+→ Verifica que Apache esté iniciado
+→ Verifica que los archivos estén en: C:\xampp\htdocs\reserva_espacios\
+
+Error: Página en blanco
+→ Activa DEBUG en config.php: define('DEBUG', true);
+→ Revisa los logs de Apache en XAMPP
+
+═══════════════════════════════════════════════════════════════
+
+¡LISTO! Tu página web debería estar funcionando en:
+http://localhost/reserva_espacios/
+
+═══════════════════════════════════════════════════════════════
+

@@ -1,0 +1,71 @@
+═══════════════════════════════════════════════════════════════
+  CÓMO EJECUTAR LA PÁGINA WEB LOCALMENTE
+═══════════════════════════════════════════════════════════════
+
+OPCIÓN 1: Instalar PHP (Recomendado para desarrollo)
+─────────────────────────────────────────────────────
+
+1. Descarga PHP desde: https://windows.php.net/download/
+   - Descarga la versión "Thread Safe" ZIP
+   - Extrae en: C:\php
+
+2. Agrega PHP al PATH:
+   - Busca "Variables de entorno" en Windows
+   - Agrega C:\php a la variable PATH
+
+3. Reinicia la terminal y ejecuta:
+   cd reserva_espacios_django_starter\reserva_espacios
+   php -S localhost:8000
+
+4. Abre tu navegador en: http://localhost:8000
+
+═══════════════════════════════════════════════════════════════
+
+OPCIÓN 2: Usar XAMPP (Más fácil para Windows)
+───────────────────────────────────────────────
+
+1. Descarga XAMPP desde: https://www.apachefriends.org/
+   - Instala XAMPP (incluye PHP, MySQL, Apache)
+
+2. Copia los archivos PHP a:
+   C:\xampp\htdocs\reserva_espacios\
+
+3. Inicia XAMPP Control Panel
+   - Inicia Apache
+   - Inicia MySQL
+
+4. Crea la base de datos:
+   - Abre: http://localhost/phpmyadmin
+   - Crea base de datos: reserva_espacios
+   - Importa: base_de_datos.sql
+
+5. Configura config.php:
+   - Cambia DB_USER y DB_PASS según XAMPP
+
+6. Abre en navegador:
+   http://localhost/reserva_espacios/
+
+═══════════════════════════════════════════════════════════════
+
+OPCIÓN 3: Usar servidor PHP online temporal
+─────────────────────────────────────────────
+
+Puedes usar servicios como:
+- https://replit.com (gratis, soporta PHP)
+- https://www.000webhost.com (hosting gratuito)
+- https://www.infinityfree.net (hosting gratuito)
+
+═══════════════════════════════════════════════════════════════
+
+NOTA IMPORTANTE:
+────────────────
+Para que funcione completamente, necesitas:
+1. PHP instalado
+2. MySQL/MariaDB (para la base de datos)
+3. Configurar config.php con las credenciales de BD
+
+Sin base de datos, la página mostrará errores al intentar
+conectarse a MySQL.
+
+═══════════════════════════════════════════════════════════════
+

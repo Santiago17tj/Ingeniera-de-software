@@ -1,0 +1,35 @@
+# Configuración para Apache/PHP
+# Este archivo ayuda a configurar el proyecto en hosting compartido
+
+# Habilitar reescritura de URLs
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    RewriteBase /
+    
+    # Redirigir a index.php si el archivo no existe
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteRule ^(.*)$ index.php [QSA,L]
+</IfModule>
+
+# Proteger archivos sensibles
+<FilesMatch "^(config\.php|base_de_datos\.sql|\.git|\.env)$">
+    Order allow,deny
+    Deny from all
+</FilesMatch>
+
+# Configuración de PHP (si está permitido)
+<IfModule mod_php7.c>
+    php_value upload_max_filesize 10M
+    php_value post_max_size 10M
+    php_value max_execution_time 300
+    php_value max_input_time 300
+</IfModule>
+
+# Configuración de seguridad
+<IfModule mod_headers.c>
+    Header set X-Content-Type-Options "nosniff"
+    Header set X-Frame-Options "SAMEORIGIN"
+    Header set X-XSS-Protection "1; mode=block"
+</IfModule>
+

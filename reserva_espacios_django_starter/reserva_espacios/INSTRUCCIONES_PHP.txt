@@ -1,0 +1,105 @@
+═══════════════════════════════════════════════════════════════
+  INSTRUCCIONES PARA HOSTING PHP/MySQL
+═══════════════════════════════════════════════════════════════
+
+ARCHIVOS NECESARIOS:
+────────────────────
+1. Todos los archivos .php del proyecto
+2. base_de_datos.sql (estructura de la base de datos)
+
+═══════════════════════════════════════════════════════════════
+
+PASO 1: CREAR BASE DE DATOS
+───────────────────────────
+1. Abre tu panel de control de base de datos (phpMyAdmin, etc.)
+2. Crea una nueva base de datos llamada: reserva_espacios
+3. Selecciona la base de datos
+4. Abre el archivo: base_de_datos.sql
+5. Copia TODO el contenido y pégalo en el SQL del panel
+6. Ejecuta el SQL (botón "Ejecutar" o "Go")
+
+NOTA: Si prefieres, puedes importar el archivo .sql directamente
+      usando la opción "Importar" del panel.
+
+═══════════════════════════════════════════════════════════════
+
+PASO 2: CONFIGURAR CONEXIÓN
+────────────────────────────
+1. Abre el archivo: config.php
+2. Busca estas líneas y cambia los valores:
+
+   define('DB_HOST', 'localhost');        ← Deja así normalmente
+   define('DB_NAME', 'reserva_espacios');  ← Nombre de tu base de datos
+   define('DB_USER', 'tu_usuario_db');     ← Tu usuario de MySQL
+   define('DB_PASS', 'tu_password_db');     ← Tu contraseña de MySQL
+
+3. Guarda el archivo
+
+═══════════════════════════════════════════════════════════════
+
+PASO 3: SUBIR ARCHIVOS
+──────────────────────
+1. Sube TODOS los archivos .php al directorio del subdominio
+2. Asegúrate de que index.php esté en la raíz del subdominio
+3. Verifica permisos: archivos (644) y carpetas (755)
+
+═══════════════════════════════════════════════════════════════
+
+PASO 4: VERIFICAR
+─────────────────
+1. Visita tu subdominio en el navegador
+2. Deberías ver la página de inicio
+3. Haz clic en "Iniciar Sesión"
+4. Usa estas credenciales:
+   Usuario: admin
+   Contraseña: admin123
+
+⚠️ IMPORTANTE: Cambia la contraseña del admin después del primer acceso
+
+═══════════════════════════════════════════════════════════════
+
+ARCHIVO DE ARRANQUE
+───────────────────
+El archivo de arranque es: index.php
+Este es el archivo principal que el hosting necesita.
+
+═══════════════════════════════════════════════════════════════
+
+ESTRUCTURA DE ARCHIVOS
+──────────────────────
+Todos los archivos deben estar en el mismo directorio:
+
+index.php              ← Página principal (archivo de arranque)
+login.php
+logout.php
+reservas.php
+nueva_reserva.php
+config.php
+header.php
+footer.php
+api_disponibilidad.php
+admin.php
+base_de_datos.sql     ← Solo para crear la base de datos
+
+═══════════════════════════════════════════════════════════════
+
+SOLUCIÓN DE PROBLEMAS
+─────────────────────
+
+Error: "Error de conexión a la base de datos"
+→ Verifica las credenciales en config.php
+→ Asegúrate de que la base de datos existe
+→ Verifica que el usuario tiene permisos
+
+Página en blanco
+→ Activa DEBUG en config.php: define('DEBUG', true);
+→ Revisa los logs de error de PHP
+
+No puedo iniciar sesión
+→ Verifica que la base de datos tiene la tabla "usuarios"
+→ Verifica que existe el usuario "admin"
+
+═══════════════════════════════════════════════════════════════
+
+¡LISTO! Tu página web debería estar funcionando.
+

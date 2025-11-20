@@ -1,0 +1,70 @@
+Hola [Nombre del compañero],
+
+Te envío el proyecto PHP listo para subir al hosting.
+
+═══════════════════════════════════════════════════════════════
+ARCHIVOS ADJUNTOS:
+═══════════════════════════════════════════════════════════════
+
+1. reserva-espacios-php.zip
+   → Contiene todos los archivos PHP del proyecto
+
+2. base_de_datos.sql (incluido en el ZIP)
+   → Estructura de la base de datos
+
+═══════════════════════════════════════════════════════════════
+PASOS RÁPIDOS:
+═══════════════════════════════════════════════════════════════
+
+PASO 1: CREAR BASE DE DATOS
+───────────────────────────
+1. Abre tu panel de base de datos (phpMyAdmin, etc.)
+2. Crea una nueva base de datos: reserva_espacios
+3. Selecciona la base de datos
+4. Abre el archivo: base_de_datos.sql
+5. Copia TODO el contenido y pégalo en el SQL del panel
+6. Ejecuta el SQL
+
+PASO 2: CONFIGURAR
+──────────────────
+1. Extrae el ZIP en el directorio del subdominio
+2. Abre el archivo: config.php
+3. Cambia estos valores:
+   - DB_USER: tu usuario de MySQL
+   - DB_PASS: tu contraseña de MySQL
+   - DB_NAME: reserva_espacios (o el nombre que le diste)
+
+PASO 3: VERIFICAR
+──────────────────
+1. Visita tu subdominio
+2. Deberías ver la página de inicio
+3. Haz clic en "Iniciar Sesión"
+4. Usa estas credenciales:
+   Usuario: admin
+   Contraseña: admin123
+
+⚠️ IMPORTANTE: Cambia la contraseña del admin después del primer acceso
+
+═══════════════════════════════════════════════════════════════
+ARCHIVO DE ARRANQUE:
+═══════════════════════════════════════════════════════════════
+
+El archivo de arranque es: index.php
+Este es el archivo principal que el hosting necesita.
+
+═══════════════════════════════════════════════════════════════
+ESTRUCTURA:
+═══════════════════════════════════════════════════════════════
+
+Todos los archivos deben estar en el mismo directorio:
+- index.php (archivo de arranque)
+- login.php, reservas.php, etc.
+- config.php (configuración)
+- base_de_datos.sql (solo para crear la BD)
+
+═══════════════════════════════════════════════════════════════
+
+Para más detalles, revisa: INSTRUCCIONES_PHP.txt
+
+¡Gracias por tu ayuda!
+
