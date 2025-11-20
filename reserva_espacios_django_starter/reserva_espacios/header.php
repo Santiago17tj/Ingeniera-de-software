@@ -53,6 +53,10 @@ $flash = getFlashMessage();
                     <i class="fas fa-plus-circle"></i>
                     <span style="margin-left: 0.5rem;">Nueva Reserva</span>
                 </a>
+                <a class="navbar-item" href="perfil.php">
+                    <i class="fas fa-user-circle"></i>
+                    <span style="margin-left: 0.5rem;">Mi Perfil</span>
+                </a>
                 <?php if ($usuario['is_admin']): ?>
                 <a class="navbar-item" href="admin.php">
                     <i class="fas fa-cog"></i>
