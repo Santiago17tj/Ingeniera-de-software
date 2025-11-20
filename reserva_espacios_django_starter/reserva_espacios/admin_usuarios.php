@@ -222,74 +222,193 @@ require_once 'header.php';
 
 <script>
 function verDetalles(usuarioId) {
+    console.log('Cargando detalles del usuario:', usuarioId);
     document.getElementById('modal-detalles').classList.add('is-active');
     
+    // Resetear contenido
+    document.getElementById('contenido-detalles').innerHTML = `
+        <div class="has-text-centered">
+            <span class="icon is-large">
+                <i class="fas fa-spinner fa-pulse fa-2x"></i>
+            </span>
+            <p>Cargando...</p>
+        </div>
+    `;
+    
     // Cargar detalles del usuario con AJAX
-    fetch('api_usuario_detalles.php?id=' + usuarioId)
-        .then(response => response.json())
-        .then(data => {
-            if (data.error) {
-                document.getElementById('contenido-detalles').innerHTML = `
-                    <article class="message is-danger">
-                        <div class="message-body">${data.error}</div>
-                    </article>
-                `;
-            } else {
-                let html = `
-                    <div class="content">
-                        <h4><i class="fas fa-user"></i> Información Personal</h4>
-                        <table class="table is-fullwidth">
-                            <tr><th>Nombre Completo:</th><td>${data.usuario.nombre} ${data.usuario.apellido}</td></tr>
-                            <tr><th>Usuario:</th><td>${data.usuario.username}</td></tr>
-                            <tr><th>Email:</th><td>${data.usuario.email}</td></tr>
-                            <tr><th>Rol:</th><td>${data.usuario.is_admin ? '<span class="tag is-danger">Administrador</span>' : '<span class="tag is-info">Usuario</span>'}</td></tr>
-                            <tr><th>Estado:</th><td>${data.usuario.is_active ? '<span class="tag is-success">Activo</span>' : '<span class="tag is-danger">Inactivo</span>'}</td></tr>
-                            <tr><th>Fecha Registro:</th><td>${data.usuario.fecha_registro}</td></tr>
-                        </table>
-                        
-                        <h4><i class="fas fa-calendar-check"></i> Reservas Recientes</h4>
-                `;
+    const url = 'api_usuario_detalles.php?id=' + usuarioId;
+    console.log('Haciendo petición a:', url);
+    
+    fetch(url)
+        .then(response => {
+            console.log('Respuesta recibida, status:', response.status);
+            if (!response.ok) {
+                throw new Error('HTTP error! status: ' + response.status);
+            }
+            return response.text();
+        })
+        .then(text => {
+            console.log('Respuesta texto:', text);
+            try {
+                const data = JSON.parse(text);
+                console.log('Datos parseados:', data);
                 
-                if (data.reservas.length > 0) {
-                    html += '<table class="table is-fullwidth is-striped">';
-                    html += '<thead><tr><th>Espacio</th><th>Fecha</th><th>Horario</th><th>Estado</th></tr></thead><tbody>';
-                    data.reservas.forEach(r => {
-                        let estadoClass = r.estado === 'CONFIRMADA' ? 'success' : (r.estado === 'CANCELADA' ? 'danger' : 'warning');
-                        html += `<tr>
-                            <td>${r.espacio_nombre}</td>
-                            <td>${r.fecha}</td>
-                            <td>${r.hora_inicio} - ${r.hora_fin}</td>
-                            <td><span class="tag is-${estadoClass}">${r.estado}</span></td>
-                        </tr>`;
-                    });
-                    html += '</tbody></table>';
+                if (data.error) {
+                    document.getElementById('contenido-detalles').innerHTML = `
+                        <article class="message is-danger">
+                            <div class="message-body">
+                                <i class="fas fa-exclamation-triangle"></i>
+                                ${data.error}
+                            </div>
+                        </article>
+                    `;
+                } else if (data.usuario) {
+                    let html = `
+                        <div class="content">
+                            <h4><i class="fas fa-user"></i> Información Personal</h4>
+                            <table class="table is-fullwidth">
+                                <tr><th>Nombre Completo:</th><td>${escapeHtml(data.usuario.nombre || '')} ${escapeHtml(data.usuario.apellido || '')}</td></tr>
+                                <tr><th>Usuario:</th><td>${escapeHtml(data.usuario.username || '')}</td></tr>
+                                <tr><th>Email:</th><td>${escapeHtml(data.usuario.email || '')}</td></tr>
+                                <tr><th>Rol:</th><td>${data.usuario.is_admin ? '<span class="tag is-danger">Administrador</span>' : '<span class="tag is-info">Usuario</span>'}</td></tr>
+                                <tr><th>Estado:</th><td>${data.usuario.is_active ? '<span class="tag is-success">Activo</span>' : '<span class="tag is-danger">Inactivo</span>'}</td></tr>
+                                <tr><th>Fecha Registro:</th><td>${escapeHtml(data.usuario.fecha_registro || '')}</td></tr>
+                            </table>
+                            
+                            <h4><i class="fas fa-calendar-check"></i> Reservas Recientes</h4>
+                    `;
+                    
+                    if (data.reservas && data.reservas.length > 0) {
+                        html += '<table class="table is-fullwidth is-striped">';
+                        html += '<thead><tr><th>Espacio</th><th>Fecha</th><th>Horario</th><th>Estado</th></tr></thead><tbody>';
+                        data.reservas.forEach(r => {
+                            let estadoClass = r.estado === 'CONFIRMADA' ? 'success' : (r.estado === 'CANCELADA' ? 'danger' : 'warning');
+                            html += `<tr>
+                                <td>${escapeHtml(r.espacio_nombre || '')}</td>
+                                <td>${escapeHtml(r.fecha || '')}</td>
+                                <td>${escapeHtml(r.hora_inicio || '')} - ${escapeHtml(r.hora_fin || '')}</td>
+                                <td><span class="tag is-${estadoClass}">${escapeHtml(r.estado || '')}</span></td>
+                            </tr>`;
+                        });
+                        html += '</tbody></table>';
+                    } else {
+                        html += '<p class="has-text-grey">No tiene reservas registradas.</p>';
+                    }
+                    
+                    html += '</div>';
+                    document.getElementById('contenido-detalles').innerHTML = html;
                 } else {
-                    html += '<p class="has-text-grey">No tiene reservas registradas.</p>';
+                    throw new Error('Formato de respuesta inválido');
                 }
-                
-                html += '</div>';
-                document.getElementById('contenido-detalles').innerHTML = html;
+            } catch (e) {
+                console.error('Error al parsear JSON:', e);
+                console.error('Texto recibido:', text);
+                throw e;
             }
         })
         .catch(error => {
+            console.error('Error en fetch:', error);
             document.getElementById('contenido-detalles').innerHTML = `
                 <article class="message is-danger">
-                    <div class="message-body">Error al cargar los detalles del usuario.</div>
+                    <div class="message-body">
+                        <i class="fas fa-exclamation-triangle"></i>
+                        <strong>Error al cargar los detalles del usuario.</strong><br>
+                        <small>${escapeHtml(error.message || 'Error desconocido')}</small><br>
+                        <small>Revisa la consola del navegador (F12) para más detalles.</small>
+                    </div>
                 </article>
             `;
         });
 }
 
-function cerrarModal() {
-    document.getElementById('modal-detalles').classList.remove('is-active');
+function escapeHtml(text) {
+    if (!text) return '';
+    const map = {
+        '&': '&amp;',
+        '<': '&lt;',
+        '>': '&gt;',
+        '"': '&quot;',
+        "'": '&#039;'
+    };
+    return text.toString().replace(/[&<>"']/g, m => map[m]);
 }
+
+function cerrarModal() {
+    const modal = document.getElementById('modal-detalles');
+    if (modal) {
+        modal.classList.remove('is-active');
+    }
+}
+
+// Cerrar modal con tecla ESC
+document.addEventListener('keydown', function(event) {
+    if (event.key === 'Escape') {
+        cerrarModal();
+    }
+});
 </script>
 
 <style>
 .modal {
-    display: flex;
+    display: none;
     align-items: center;
     justify-content: center;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0,0,0,0.5);
+}
+.modal.is-active {
+    display: flex;
+}
+.modal-card {
+    background-color: #fefefe;
+    margin: 2% auto;
+    border-radius: 6px;
+    width: 90%;
+    max-width: 600px;
+    max-height: 90vh;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 0 20px rgba(0,0,0,0.3);
+    position: relative;
+    z-index: 1001;
+}
+.modal-card-head {
+    flex-shrink: 0;
+    padding: 1rem;
+    border-bottom: 1px solid #dbdbdb;
+    background-color: #fff;
+}
+.modal-card-body {
+    flex: 1 1 auto;
+    overflow-y: auto;
+    overflow-x: hidden;
+    padding: 1.5rem;
+    min-height: 0;
+}
+.modal-card-foot {
+    flex-shrink: 0;
+    padding: 1rem;
+    border-top: 1px solid #dbdbdb;
+    background-color: #fafafa;
+    display: flex;
+    justify-content: flex-end;
+    gap: 0.5rem;
+}
+.modal-background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.5);
+    cursor: pointer;
+    z-index: -1;
 }
 </style>
 

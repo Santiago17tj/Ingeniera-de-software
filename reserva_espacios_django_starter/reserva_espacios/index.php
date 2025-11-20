@@ -82,6 +82,32 @@ $espacios = $pdo->query("SELECT * FROM espacios WHERE activo = 1 ORDER BY nombre
             <?php foreach ($espacios as $espacio): ?>
             <div class="column is-4">
                 <div class="card">
+                    <?php 
+                    // Verificar si el espacio tiene imagen
+                    $tiene_imagen = false;
+                    $ruta_imagen = '';
+                    if (isset($espacio['imagen']) && !empty($espacio['imagen'])) {
+                        $ruta_imagen = 'uploads/espacios/' . $espacio['imagen'];
+                        if (file_exists($ruta_imagen)) {
+                            $tiene_imagen = true;
+                        }
+                    }
+                    ?>
+                    <?php if ($tiene_imagen): ?>
+                    <div class="card-image">
+                        <figure class="image is-4by3">
+                            <img src="<?php echo htmlspecialchars($ruta_imagen); ?>" alt="<?php echo htmlspecialchars($espacio['nombre']); ?>" style="object-fit: cover;">
+                        </figure>
+                    </div>
+                    <?php else: ?>
+                    <div class="card-image">
+                        <figure class="image is-4by3 has-background-light" style="display: flex; align-items: center; justify-content: center;">
+                            <span class="icon is-large has-text-grey">
+                                <i class="fas fa-building fa-3x"></i>
+                            </span>
+                        </figure>
+                    </div>
+                    <?php endif; ?>
                     <div class="card-content">
                         <p class="title is-5"><?php echo htmlspecialchars($espacio['nombre']); ?></p>
                         <p class="subtitle is-6">

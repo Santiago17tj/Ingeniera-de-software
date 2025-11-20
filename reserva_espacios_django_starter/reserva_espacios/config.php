@@ -7,8 +7,8 @@
 // Configuración de la base de datos
 define('DB_HOST', 'localhost');
 define('DB_NAME', 'reserva_espacios');
-define('DB_USER', 'tu_usuario_db');  // Cambiar por tu usuario de base de datos
-define('DB_PASS', 'tu_password_db');  // Cambiar por tu contraseña de base de datos
+define('DB_USER', 'root');  // Usuario por defecto de XAMPP
+define('DB_PASS', '');  // Contraseña vacía por defecto en XAMPP
 define('DB_CHARSET', 'utf8mb4');
 
 // Configuración de la aplicación
@@ -142,6 +142,48 @@ function verificarDisponibilidad($espacio_id, $fecha, $hora_inicio, $hora_fin, $
     $stmt = $pdo->prepare($sql);
     $stmt->execute($params);
     return $stmt->fetchColumn() == 0;
+}
+
+// Función para subir imagen de espacio
+function subirImagenEspacio($file, $espacio_id, $imagen_actual = null) {
+    // Directorio de uploads
+    $upload_dir = __DIR__ . '/uploads/espacios/';
+    
+    // Crear directorio si no existe
+    if (!is_dir($upload_dir)) {
+        mkdir($upload_dir, 0755, true);
+    }
+    
+    // Validar que sea un archivo de imagen
+    $allowed_types = ['image/jpeg', 'image/jpg', 'image/png', 'image/gif', 'image/webp'];
+    $file_type = $file['type'];
+    
+    if (!in_array($file_type, $allowed_types)) {
+        return ['success' => false, 'error' => 'Tipo de archivo no permitido. Solo se permiten imágenes (JPG, PNG, GIF, WEBP).'];
+    }
+    
+    // Validar tamaño (máximo 5MB)
+    $max_size = 5 * 1024 * 1024; // 5MB
+    if ($file['size'] > $max_size) {
+        return ['success' => false, 'error' => 'El archivo es demasiado grande. Máximo 5MB.'];
+    }
+    
+    // Generar nombre único para el archivo
+    $extension = pathinfo($file['name'], PATHINFO_EXTENSION);
+    $nombre_archivo = 'espacio_' . $espacio_id . '_' . time() . '.' . $extension;
+    $ruta_completa = $upload_dir . $nombre_archivo;
+    
+    // Mover archivo subido
+    if (move_uploaded_file($file['tmp_name'], $ruta_completa)) {
+        // Eliminar imagen anterior si existe
+        if ($imagen_actual && file_exists($upload_dir . $imagen_actual)) {
+            @unlink($upload_dir . $imagen_actual);
+        }
+        
+        return ['success' => true, 'nombre' => $nombre_archivo];
+    } else {
+        return ['success' => false, 'error' => 'Error al subir el archivo.'];
+    }
 }
 ?>
 
