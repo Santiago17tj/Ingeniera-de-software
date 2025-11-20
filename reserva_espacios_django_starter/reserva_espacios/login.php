@@ -77,6 +77,10 @@ require_once 'header.php';
                     </div>
                 </form>
                 <div class="has-text-centered" style="margin-top: 1rem;">
+                    <p class="is-size-6" style="margin-bottom: 1rem;">
+                        ¿No tienes cuenta? 
+                        <a href="registro.php"><strong>Regístrate aquí</strong></a>
+                    </p>
                     <p class="is-size-7 has-text-grey">
                         Usuario de prueba: <strong>admin</strong> / Contraseña: <strong>admin123</strong>
                     </p>
