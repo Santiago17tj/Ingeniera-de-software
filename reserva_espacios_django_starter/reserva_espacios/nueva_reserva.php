@@ -26,7 +26,24 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $stmt = $pdo->prepare("INSERT INTO reservas (espacio_id, usuario_id, fecha, hora_inicio, hora_fin, observaciones, estado) 
                               VALUES (?, ?, ?, ?, ?, ?, 'CONFIRMADA')");
         if ($stmt->execute([$espacio_id, $usuario['id'], $fecha, $hora_inicio, $hora_fin, $observaciones])) {
-            flashMessage('Reserva creada correctamente.', 'success');
+            // Obtener datos del espacio para email
+            $stmt_espacio = $pdo->prepare("SELECT * FROM espacios WHERE id = ?");
+            $stmt_espacio->execute([$espacio_id]);
+            $espacio_data = $stmt_espacio->fetch();
+            
+            // Preparar datos de la reserva para email
+            $reserva_data = [
+                'fecha' => $fecha,
+                'hora_inicio' => $hora_inicio,
+                'hora_fin' => $hora_fin,
+                'observaciones' => $observaciones
+            ];
+            
+            // Enviar notificación por email
+            require_once 'email_config.php';
+            enviarNotificacionReservaConfirmada($usuario, $reserva_data, $espacio_data);
+            
+            flashMessage('Reserva creada correctamente. Te hemos enviado un email de confirmación.', 'success');
             redirect('reservas.php');
         } else {
             $error = 'Error al crear la reserva. Por favor, intenta de nuevo.';
