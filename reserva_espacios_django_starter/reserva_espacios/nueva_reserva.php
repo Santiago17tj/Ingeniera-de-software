@@ -12,6 +12,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $fecha = sanitize($_POST['fecha'] ?? '');
     $hora_inicio = sanitize($_POST['hora_inicio'] ?? '');
     $hora_fin = sanitize($_POST['hora_fin'] ?? '');
+    $observaciones = sanitize($_POST['observaciones'] ?? '');
     
     // Validaciones
     if (empty($espacio_id) || empty($fecha) || empty($hora_inicio) || empty($hora_fin)) {
